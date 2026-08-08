@@ -1,0 +1,203 @@
+<div class="container">
+
+    <h1>📊 Attendance Report</h1>
+    <meta charset="UTF-8">
+
+
+    <div class="filter-section">
+
+        <label>Select Date:</label>
+
+        <input type="date" id="reportDate">
+
+        <button onclick="loadReport()">Filter</button>
+
+        <button onclick="exportExcel()">📊 Export Excel</button>
+
+        <button onclick="window.print()">📄 Export PDF</button>
+
+    </div>
+
+    <table id="reportTable">
+
+        <thead>
+
+        <tr>
+            <th>Student Name</th>
+            <th>USN</th>
+            <th>Total Present</th>
+            <th>Total Absent</th>
+            <th>Percentage</th>
+            <th>Progress</th>
+        </tr>
+
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<style>
+
+    .container{
+        width:90%;
+        margin:auto;
+        margin-top:30px;
+        font-family:Arial;
+    }
+
+    .filter-section{
+        margin-bottom:20px;
+    }
+
+    .filter-section input,
+    .filter-section button{
+        padding:8px;
+        margin-right:10px;
+    }
+
+    table{
+        width:100%;
+        border-collapse:collapse;
+    }
+
+    table th{
+        background:#1e3a8a;
+        color:white;
+        padding:12px;
+    }
+
+    table td{
+        padding:10px;
+        border:1px solid #ddd;
+        text-align:center;
+    }
+
+    .progress{
+        width:120px;
+        height:18px;
+        background:#ddd;
+        border-radius:20px;
+        margin:auto;
+    }
+
+    .progress-bar{
+        height:18px;
+        background:#28a745;
+        color:white;
+        border-radius:20px;
+        font-size:12px;
+    }
+
+</style>
+
+<script>
+
+    function loadReport(){
+
+        Promise.all([
+
+            fetch("http://localhost:8080/student").then(res=>res.json()),
+
+            fetch("http://localhost:8080/attendance").then(res=>res.json())
+
+        ])
+
+            .then(([students,attendance])=>{
+
+                let table=document.querySelector("#reportTable tbody");
+
+                table.innerHTML="";
+
+                let selectedDate=document.getElementById("reportDate").value;
+
+                students.forEach(student=>{
+
+                    let records=attendance.filter(a=>{
+
+                        if(selectedDate==="")
+                            return a.studentId==student.id;
+
+                        return a.studentId==student.id && a.date===selectedDate;
+
+                    });
+
+                    let present=records.filter(r=>r.status==="Present").length;
+
+                    let absent=records.filter(r=>r.status==="Absent").length;
+
+                    let total=present+absent;
+
+                    let percentage=0;
+
+                    if(total>0){
+
+                        percentage=Math.round((present/total)*100);
+
+                    }
+
+                    table.innerHTML+=`
+
+<tr>
+
+<td>${student.name}</td>
+
+<td>${student.usn}</td>
+
+<td>${present}</td>
+
+<td>${absent}</td>
+
+<td>${percentage}%</td>
+
+<td>
+
+<div class="progress">
+
+<div class="progress-bar"
+
+style="width:${percentage}%">
+
+${percentage}%
+
+</div>
+
+</div>
+
+</td>
+
+</tr>
+
+`;
+
+                });
+
+            });
+
+    }
+
+    function exportExcel(){
+
+        let table=document.getElementById("reportTable");
+
+        let html=table.outerHTML;
+
+        let url='data:application/vnd.ms-excel,'+encodeURIComponent(html);
+
+        let link=document.createElement("a");
+
+        link.href=url;
+
+        link.download="Attendance_Report.xls";
+
+        link.click();
+
+    }
+
+    loadReport();
+
+</script>

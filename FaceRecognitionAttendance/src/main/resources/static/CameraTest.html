@@ -1,0 +1,42 @@
+package com.attendance.face;
+
+import org.opencv.core.Core;
+import org.opencv.core.Mat;
+import org.opencv.highgui.HighGui;
+import org.opencv.videoio.VideoCapture;
+
+public class CameraTest {
+
+static {
+System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
+}
+
+public static void main(String[] args) {
+
+VideoCapture camera = new VideoCapture(0);
+
+if (!camera.isOpened()) {
+System.out.println("Camera not detected");
+return;
+}
+
+System.out.println("Camera opened successfully");
+
+Mat frame = new Mat();
+
+while (true) {
+camera.read(frame);
+
+if (!frame.empty()) {
+HighGui.imshow("Camera", frame);
+}
+
+if (HighGui.waitKey(30) == 27) {
+break;
+}
+}
+
+camera.release();
+HighGui.destroyAllWindows();
+}
+}

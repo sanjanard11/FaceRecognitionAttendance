@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Admin Login</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <div class="logo">
+
+        <h1>Face Recognition Attendance System</h1>
+        <p>Admin Login Portal</p>
+
+    </div>
+
+
+    <h2>Admin Login</h2>
+
+
+
+    <div class="input-group">
+
+        <label>Email</label>
+        <input type="email" id="email" placeholder="Enter email">
+
+    </div>
+
+
+
+    <div class="input-group">
+
+        <label>Password</label>
+        <input type="password" id="password" placeholder="Enter password">
+
+    </div>
+
+
+
+    <button type="button" onclick="loginAdmin()">
+        Login
+    </button>
+
+
+
+    <div class="login-link">
+
+        New Admin?
+        <a href="admin-register.html">Register</a>
+
+    </div>
+
+
+
+</div>
+
+
+
+<script>
+
+    function loginAdmin(){
+
+
+        let email = document.getElementById("email").value;
+
+        let password = document.getElementById("password").value;
+
+
+
+        if(email === "" || password === "")
+        {
+            alert("Please enter email and password");
+            return;
+        }
+
+
+
+        fetch("/admin/login?email=" + email + "&password=" + password,
+            {
+
+                method:"POST"
+
+            })
+
+
+            .then(response => response.json())
+
+
+            .then(data => {
+
+
+                if(data != null)
+                {
+
+                    alert("Login Successful");
+
+                    window.location.href="dashboard.html";
+
+                }
+
+                else
+                {
+
+                    alert("Invalid Email or Password");
+
+                }
+
+
+            })
+
+
+            .catch(error => {
+
+                console.log(error);
+
+                alert("Login Failed");
+
+            });
+
+
+    }
+
+
+</script>
+
+
+
+</body>
+
+</html>

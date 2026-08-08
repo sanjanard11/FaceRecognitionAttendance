@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>View Attendance</title>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="attendance.css">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+    <h1>📋 Attendance Records</h1>
+
+
+    <table border="1" width="100%" id="attendanceTable">
+
+
+        <thead>
+
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>USN</th>
+            <th>Department</th>
+            <th>Status</th>
+        </tr>
+
+        </thead>
+
+
+        <tbody>
+
+
+        </tbody>
+
+
+    </table>
+
+
+</div>
+
+
+
+
+<script>
+
+    Promise.all([
+
+        fetch("http://localhost:8080/student").then(res => res.json()),
+
+        fetch("http://localhost:8080/attendance").then(res => res.json())
+
+    ])
+
+        .then(([students, attendance]) => {
+
+
+            let table = document.querySelector("#attendanceTable tbody");
+
+
+            students.forEach(student => {
+
+
+                let record = attendance.find(
+                    a => a.studentId == student.id
+                );
+
+
+                let status = "Not Marked";
+
+
+                if(record){
+
+                    status = record.status;
+
+                }
+
+
+                table.innerHTML += `
+
+        <tr>
+
+            <td>${student.id}</td>
+
+            <td>${student.name}</td>
+
+            <td>${student.usn}</td>
+
+            <td>${student.department}</td>
+
+            <td>${status}</td>
+
+        </tr>
+
+        `;
+
+
+            });
+
+
+        })
+
+        .catch(error => {
+
+            console.log(error);
+
+        });
+
+</script>
+</body>
+
+</html>

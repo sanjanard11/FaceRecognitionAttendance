@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Student Test</title>
+</head>
+
+<body>
+
+<h2>Add Student</h2>
+
+<button onclick="addStudent()">Add Test Student</button>
+
+<script>
+
+
+
+        fetch("http://localhost:8080/student/add", {
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify(student)
+
+        })
+            .then(response => response.json())
+            .then(data => {
+
+                alert("Student Added");
+                console.log(data);
+
+            })
+            .catch(error=>{
+
+                console.log(error);
+                alert("Error");
+
+            });
+
+    }
+
+</script>
+
+</body>
+</html>

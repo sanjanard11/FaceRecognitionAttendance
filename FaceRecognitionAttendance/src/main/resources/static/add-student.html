@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Student</title>
+    <link rel="stylesheet" href="add-student.css">
+</head>
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>Add Student</h1>
+        <p>Register a new student into the Face Recognition Attendance System</p>
+    </div>
+
+    <form id="studentForm">
+
+        <div class="row">
+
+            <div class="input-group">
+                <label>Student Name</label>
+                <input type="text" id="name" placeholder="Enter student name" required>
+            </div>
+
+            <div class="input-group">
+                <label>USN</label>
+                <input type="text" id="usn" placeholder="Enter USN" required>
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" id="email" placeholder="Enter email">
+            </div>
+
+            <div class="input-group">
+                <label>Phone Number</label>
+                <input type="text" id="phone" placeholder="Enter phone number">
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="input-group">
+                <label>Department</label>
+                <input type="text" id="department" placeholder="Computer Science Engineering">
+            </div>
+
+            <div class="input-group">
+                <label>Semester</label>
+                <input type="number" id="semester" placeholder="5">
+            </div>
+
+        </div>
+
+        <div class="input-group">
+            <label>Face Image</label>
+            <input type="file" id="image">
+        </div>
+
+        <<button type="submit">
+        Add Student
+    </button>
+    </form>
+
+</div>
+
+<script>
+
+    document.getElementById("studentForm").addEventListener("submit", function(e) {
+
+        e.preventDefault();
+
+        const student = {
+            name: document.getElementById("name").value,
+            usn: document.getElementById("usn").value,
+            semester: Number(document.getElementById("semester").value),
+            email: document.getElementById("email").value,
+            department: document.getElementById("department").value
+        };
+
+        console.log(student);
+
+
+        fetch("http://localhost:8080/student/add", {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(student)
+
+        })
+            .then(response => {
+
+                console.log("STATUS:", response.status);
+
+                return response.text();
+
+            })
+            .then(data => {
+
+                console.log("SERVER RESPONSE:", data);
+
+                alert(data);
+
+            })
+            .catch(error => {
+
+                console.error("ERROR:", error);
+
+            });
+
+</script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+body{
+    margin:0;
+    font-family:"Segoe UI",sans-serif;
+    background:#f5f3ff;
+}
+
+.container{
+    width:90%;
+    margin:40px auto;
+}
+
+h1{
+    color:#4b0082;
+    margin-bottom:25px;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    background:white;
+    box-shadow:0 5px 15px rgba(0,0,0,.15);
+    border-radius:12px;
+    overflow:hidden;
+}
+
+th{
+    background:#6a0dad;
+    color:white;
+    padding:15px;
+}
+
+td{
+    padding:15px;
+    text-align:center;
+    border-bottom:1px solid #eee;
+}
+
+tr:hover{
+    background:#f3ebff;
+}

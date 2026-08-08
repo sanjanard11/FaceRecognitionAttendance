@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>View Attendance</title>
+    <link rel="stylesheet" href="attendance.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>📋 Attendance Records</h1>
+
+    <table id="attendanceTable" border="1">
+
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Student ID</th>
+            <th>Student Name</th>
+            <th>Date</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+
+<script>
+
+    Promise.all([
+
+        fetch("http://localhost:8080/student")
+            .then(res => res.json()),
+
+
+        fetch("http://localhost:8080/attendance")
+            .then(res => res.json())
+
+    ])
+
+
+        .then(([students, attendance]) => {
+
+
+            let table = document.querySelector("#attendanceTable tbody");
+
+
+            students.forEach(student => {
+
+
+                let status = "Not Marked";
+
+
+                attendance.forEach(a => {
+
+
+                    if(Number(a.studentId) === Number(student.id)){
+
+                        status = a.status;
+
+                    }
+
+
+                });
+
+
+
+                table.innerHTML += `
+
+<tr>
+
+<td>${student.id}</td>
+
+<td>${student.name}</td>
+
+<td>${student.usn}</td>
+
+<td>${student.department}</td>
+
+<td>${status}</td>
+
+
+</tr>
+
+
+`;
+
+
+
+            });
+
+
+        });
+
+
+</script>
+
+</body>
+</html>
