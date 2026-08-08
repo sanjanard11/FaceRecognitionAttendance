@@ -1,0 +1,9 @@
+POST http://localhost:8080/admin/register
+Content-Type: application/json
+
+{
+  "name": "Admin",
+  "email": "admin@gmail.com",
+  "password": "admin123",
+  "phone": "9876543210"
+}

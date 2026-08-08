@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Mark Attendance</title>
+    <meta charset="UTF-8">
+
+
+    <link rel="stylesheet" href="attendance.css">
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+    <h1>📅 Mark Attendance</h1>
+
+    <form id="attendanceForm">
+
+        <label>Select Student</label>
+
+        <select id="studentSelect" required>
+            <option value="">-- Select Student --</option>
+        </select>
+
+
+        <label>Date</label>
+        <input type="date" id="date" required>
+
+
+        <label>Status</label>
+        <select id="status">
+            <option value="Present">Present</option>
+            <option value="Absent">Absent</option>
+        </select>
+
+
+        <button type="submit">
+            Mark Attendance
+        </button>
+
+    </form>
+
+
+</div>
+
+
+
+<script>
+
+    fetch("http://localhost:8080/student")
+        .then(response => response.json())
+        .then(students => {
+
+            let dropdown = document.getElementById("studentSelect");
+
+            students.forEach(student => {
+
+                dropdown.innerHTML += `
+            <option value="${student.id}" data-name="${student.name}">
+                ${student.name} - ${student.usn}
+            </option>
+        `;
+
+            });
+
+        });
+
+
+    document.getElementById("attendanceForm").addEventListener("submit", function(e){
+
+        e.preventDefault();
+
+        let dropdown = document.getElementById("studentSelect");
+        let option = dropdown.options[dropdown.selectedIndex];
+
+        let attendance = {
+
+            studentId: Number(dropdown.value),
+            studentName: option.getAttribute("data-name"),
+            date: document.getElementById("date").value,
+            status: document.getElementById("status").value
+
+        };
+
+        fetch("http://localhost:8080/attendance/mark",{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify(attendance)
+
+        })
+
+            .then(response => response.json())
+
+            .then(data => {
+
+                alert("Attendance Marked Successfully!");
+
+            })
+
+            .catch(error => {
+
+                console.log(error);
+                alert("Failed to Mark Attendance");
+
+            });
+
+    });
+
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        const studentSelect = document.getElementById("studentSelect");
+        const dateInput = document.getElementById("date");
+        const form = document.getElementById("attendanceForm");
+
+        // Automatically set today's date
+        const today = new Date().toISOString().split("T")[0];
+        dateInput.value = today;
+
+        // Load students
+        fetch("http://localhost:8080/student")
+            .then(response => response.json())
+            .then(students => {
+
+                students.forEach(student => {
+
+                    const option = document.createElement("option");
+
+                    option.value = student.id;
+
+                    option.textContent =
+                        student.name || student.studentName;
+
+                    option.dataset.name =
+                        student.name || student.studentName;
+
+                    studentSelect.appendChild(option);
+
+                });
+
+            })
+            .catch(error => {
+                console.error("Error loading students:", error);
+            });
+
+
+        // Mark Attendance
+        form.addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+            const selectedOption =
+                studentSelect.options[studentSelect.selectedIndex];
+
+            const studentId = studentSelect.value;
+            const studentName = selectedOption.dataset.name;
+            const date = dateInput.value;
+            const status = document.getElementById("status").value;
+
+
+            const attendance = {
+
+                studentId: parseInt(studentId),
+                studentName: studentName,
+                date: date,
+                status: status
+
+            };
+
+
+            fetch("http://localhost:8080/attendance/mark", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify(attendance)
+
+            })
+                .then(response => {
+
+                    if (!response.ok) {
+                        throw new Error("Failed to mark attendance");
+                    }
+
+                    return response.json();
+
+                })
+                .then(data => {
+
+                    alert("Attendance Marked Successfully!");
+
+                    console.log("Saved Attendance:", data);
+
+                    form.reset();
+
+                    // Set today's date again
+                    dateInput.value =
+                        new Date().toISOString().split("T")[0];
+
+                })
+                .catch(error => {
+
+                    console.error("Attendance Error:", error);
+
+                    alert("Failed to mark attendance.");
+
+                });
+
+        });
+
+    });
+</script>
+</body>
+
+</html>

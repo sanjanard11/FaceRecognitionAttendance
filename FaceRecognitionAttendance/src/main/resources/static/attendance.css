@@ -1,0 +1,146 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+
+body{
+
+    background:#f4f7fb;
+
+}
+
+
+.container{
+
+    width:90%;
+    margin:40px auto;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+
+}
+
+
+h1{
+
+    text-align:center;
+    color:#333;
+    margin-bottom:30px;
+
+}
+
+
+/* Form */
+
+form{
+
+    width:50%;
+    margin:auto;
+
+}
+
+
+label{
+
+    display:block;
+    margin-top:15px;
+    font-weight:bold;
+
+}
+
+
+input,
+select{
+
+    width:100%;
+    padding:12px;
+    margin-top:8px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    font-size:15px;
+
+}
+
+
+button{
+
+    width:100%;
+    margin-top:25px;
+    padding:12px;
+
+    background:#2563eb;
+    color:white;
+
+    border:none;
+    border-radius:8px;
+
+    font-size:16px;
+    cursor:pointer;
+
+}
+
+
+button:hover{
+
+    background:#1d4ed8;
+
+}
+
+
+
+/* Attendance Table */
+
+table{
+
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+
+}
+
+
+th{
+
+    background:#2563eb;
+    color:white;
+    padding:12px;
+
+}
+
+
+td{
+
+    padding:12px;
+    text-align:center;
+    border-bottom:1px solid #ddd;
+
+}
+
+
+tr:hover{
+
+    background:#f1f5f9;
+
+}
+
+
+
+/* Dashboard Attendance Cards */
+
+.card{
+
+    cursor:pointer;
+    transition:0.3s;
+
+}
+
+
+.card:hover{
+
+    transform:translateY(-5px);
+
+}

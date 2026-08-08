@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Admin Dashboard</title>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="dashboard.css">
+
+</head>
+
+
+<body>
+
+
+<div class="sidebar">
+
+    <h2>Face Attendance</h2>
+
+    <a onclick="showSection('home')">🏠 Dashboard</a>
+
+    <a href="add-student.html">👨‍🎓Add Student</a>
+    <a href="view-students.html">📋 View Students</a>
+
+    <a href="mark-attendance.html">✅ Mark Attendance</a>
+
+    <a href="view-attendance.html">📋 View Attendance</a>
+    <a href="reports.html">📊 Reports</a>
+    <a href="register-face.html">📷 Register Face</a>
+    <a href="admin-login.html">🚪 Logout</a>
+
+</div>
+
+
+<div class="main">
+
+
+    <div class="topbar">
+
+        <h2>Admin Dashboard</h2>
+
+        <div class="profile">
+            Admin
+        </div>
+
+    </div>
+
+
+
+    <div class="welcome">
+
+        <h1>Welcome Admin</h1>
+
+        <p>
+            Manage students, face recognition and attendance records from this dashboard.
+        </p>
+
+    </div>
+
+
+
+
+    <div class="cards">
+
+
+        <div class="card" onclick="window.location.href='view-students.html'" style="cursor:pointer;">
+            <h2>👨‍🎓</h2>
+            <h3>Total Students</h3>
+            <p id="studentCount">0</p>
+        </div>
+
+
+
+
+        <div class="card" onclick="window.location.href='register-face.html'" style="cursor:pointer;">
+            <h2>😊</h2>
+            <h3>Face Registered</h3>
+            <p id="faceCount">0</p>
+        </div>
+
+
+
+        <div class="card" onclick="window.location.href='view-attendance.html'" style="cursor:pointer;">
+            <h2>✅</h2>
+            <h3>Today's Attendance</h3>
+            <p id="attendanceCount">0</p>
+        </div>
+
+
+
+
+        <div class="card" onclick="window.location.href='reports.html'" style="cursor:pointer;">
+            <h2>📊</h2>
+            <h3>Attendance Reports</h3>
+            <p>View</p>
+        </div>
+
+
+
+    </div>
+
+
+</div>
+
+
+
+
+<script>
+
+    function logout(){
+
+        alert("Logout Successfully");
+
+        window.location.href="admin-login.html";
+
+    }
+
+</script>
+<script>
+
+    function showSection(id){
+
+        let sections=document.querySelectorAll(".section");
+
+        sections.forEach(section=>{
+            section.style.display="none";
+        });
+
+
+        document.getElementById(id).style.display="block";
+
+    }
+
+</script>
+<script>
+    fetch("/student")
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("studentCount").innerText = data.length;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+</script>
+<script>
+    function loadStudentCount() {
+
+        fetch("/student/count")
+            .then(response => response.text())
+            .then(count => {
+                document.getElementById("studentCount").innerHTML = count;
+            })
+            .catch(error => {
+                console.log(error);
+            });
+
+    }
+
+</script>
+<script src="dashboard.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        fetch("http://localhost:8080/attendance/count")
+            .then(response => response.json())
+            .then(data => {
+                console.log("Today's Attendance:", data);
+
+                document.getElementById("attendanceCount").textContent = data;
+            })
+            .catch(error => {
+                console.error("Attendance Error:", error);
+            });
+
+    });
+</script>
+</body>
+
+</html>

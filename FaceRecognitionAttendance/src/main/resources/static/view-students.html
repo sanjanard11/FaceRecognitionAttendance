@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>All Students</title>
+    <link rel="stylesheet" href="view-students.css">
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<div class="container">
+
+    <h1>👨‍🎓 Student Details</h1>
+
+    <table id="studentTable">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>USN</th>
+            <th>Semester</th>
+            <th>Email</th>
+            <th>Department</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        </tbody>
+    </table>
+
+</div>
+
+<script>
+
+    fetch("http://localhost:8080/student")
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            let table = document.querySelector("#studentTable tbody");
+
+            data.forEach(student => {
+
+                table.innerHTML += `
+        <tr>
+            <td>${student.id}</td>
+            <td>${student.name}</td>
+            <td>${student.usn}</td>
+            <td>${student.semester}</td>
+            <td>${student.email}</td>
+            <td>${student.department}</td>
+            </tr>
+        `;
+
+            });
+
+        });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register Face</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="register-face.css">
+</head>
+
+<body>
+
+<h1>📷 Register Face</h1>
+
+
+<label>Select Student</label>
+
+<select id="studentSelect">
+    <option value="">Select Student</option>
+</select>
+
+
+<br><br>
+
+
+<video id="video" width="500" height="350" autoplay></video>
+
+
+<canvas id="canvas"
+        width="500"
+        height="350"
+        style="display:none;">
+</canvas>
+
+
+<br><br>
+
+
+<button onclick="openCamera()">
+    Open Camera
+</button>
+
+
+<button onclick="captureFace()">
+    Capture Face
+</button>
+
+
+<button onclick="registerFace()">
+    Register Face
+</button>
+
+
+
+<script src="register-face.js"></script>
+
+</body>
+</html>
