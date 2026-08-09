@@ -2,11 +2,16 @@ FROM eclipse-temurin:17-jdk
 
 WORKDIR /app
 
-COPY . .
+COPY pom.xml .
+COPY .mvn .mvn
+COPY mvnw .
 
-RUN apt-get update && apt-get install -y maven
+RUN chmod +x mvnw
+RUN ./mvnw dependency:go-offline -DskipTests
 
-RUN mvn clean package -DskipTests
+COPY src src
+
+RUN ./mvnw clean package -DskipTests
 
 EXPOSE 8080
 
