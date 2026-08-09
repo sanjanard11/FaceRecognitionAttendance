@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: face-recognition-attendance
+    runtime: docker
+    plan: free
+    branch: master
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PORT
+        value: 8080
