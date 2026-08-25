@@ -37,11 +37,11 @@
 
     Promise.all([
 
-        fetch("http://localhost:8080/student")
+        fetch("/student")
             .then(res => res.json()),
 
 
-        fetch("http://localhost:8080/attendance")
+        fetch("/attendance")
             .then(res => res.json())
 
     ])

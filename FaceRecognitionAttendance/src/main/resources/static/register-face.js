@@ -14,7 +14,7 @@ window.onload = function(){
 
 function loadStudents(){
 
-    fetch("http://localhost:8080/student")
+    fetch("/student")
 
         .then(response => response.json())
 
@@ -209,7 +209,7 @@ async function registerFace(){
 
 
     fetch(
-        "http://localhost:8080/face/registerFace",
+        "/face/registerFace",
         {
 
             method:"POST",

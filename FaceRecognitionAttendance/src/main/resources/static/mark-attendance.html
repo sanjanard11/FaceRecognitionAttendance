@@ -52,7 +52,7 @@
 
 <script>
 
-    fetch("http://localhost:8080/student")
+    fetch("/student")
         .then(response => response.json())
         .then(students => {
 
@@ -87,7 +87,7 @@
 
         };
 
-        fetch("http://localhost:8080/attendance/mark",{
+        fetch("/attendance/mark",{
 
             method:"POST",
 
@@ -129,7 +129,7 @@
         dateInput.value = today;
 
         // Load students
-        fetch("http://localhost:8080/student")
+        fetch("/student")
             .then(response => response.json())
             .then(students => {
 
@@ -179,7 +179,7 @@
             };
 
 
-            fetch("http://localhost:8080/attendance/mark", {
+            fetch("/attendance/mark", {
 
                 method: "POST",
 

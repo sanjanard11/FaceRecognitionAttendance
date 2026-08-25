@@ -162,7 +162,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
 
-        fetch("http://localhost:8080/attendance/count")
+        fetch("/attendance/count")
             .then(response => response.json())
             .then(data => {
                 console.log("Today's Attendance:", data);

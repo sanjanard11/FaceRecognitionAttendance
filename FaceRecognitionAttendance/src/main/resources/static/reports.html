@@ -101,9 +101,9 @@
 
         Promise.all([
 
-            fetch("http://localhost:8080/student").then(res=>res.json()),
+            fetch("/student").then(res=>res.json()),
 
-            fetch("http://localhost:8080/attendance").then(res=>res.json())
+            fetch("/attendance").then(res=>res.json())
 
         ])
 
