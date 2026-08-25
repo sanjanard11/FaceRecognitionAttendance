@@ -10,7 +10,7 @@ The system allows students/users to register, captures facial data, recognizes r
 
 ### 🌐 Live Application
 
-https://evaluating-newspapers-foam-built.trycloudflare.com/
+https://facerecognitionattendance-12.onrender.com
 
 > **Note:** This demo is currently exposed using a Cloudflare Quick Tunnel. The application must be running on the host computer for the demo URL to remain accessible.
 
