@@ -1,25 +1,23 @@
-# -------- Build stage --------
-FROM maven:3.9-eclipse-temurin-17 AS builder
-WORKDIR /build
-COPY . .
-RUN ./mvnw clean package -DskipTests || mvn clean package -DskipTests
+# Build stage
+FROM maven:3.9.9-eclipse-temurin-17 AS build
 
-# -------- Run stage --------
-FROM eclipse-temurin:17-jdk
 WORKDIR /app
 
-# Install OpenCV native libs if you need them
-RUN apt-get update && apt-get install -y \
-    libopencv-core4.5d \
-    libopencv-imgproc4.5d \
-    libopencv-imgcodecs4.5d \
-    libopencv-objdetect4.5d \
-    libopencv-videoio4.5d \
-    && rm -rf /var/lib/apt/lists/*
+COPY pom.xml .
 
-# IMPORTANT: put your real JAR name here
-COPY --from=builder /build/target/face-recognition-0.0.1-SNAPSHOT.jar app.jar
+RUN mvn dependency:go-offline
 
-ENV SPRING_PROFILES_ACTIVE=prod
+COPY src ./src
+
+RUN mvn clean package -DskipTests
+
+# Run stage
+FROM eclipse-temurin:17-jre
+
+WORKDIR /app
+
+COPY --from=build /app/target/FaceRecognitionAttendance-0.0.1-SNAPSHOT.jar app.jar
+
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+
+CMD ["java", "-jar", "app.jar"]
